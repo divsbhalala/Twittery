@@ -1,7 +1,0 @@
-phpunit Tests_tweettest
-
-phpunit --help
-
-phpunit --configuration phpunit.xml
-
-phpunit --bootstrap phpunit.xml
