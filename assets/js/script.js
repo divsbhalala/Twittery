@@ -215,6 +215,7 @@ $(document).ready(function () {
                     if (data.success === true) {
 
                         $('#downloadNow').attr('href', baseUrl + '/' + data.file);
+$('.download-msg').text('Click download button to download file');
                         $('#loader').hide();
                         $('#downloadNow').show();
                     }
@@ -241,6 +242,7 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.success == true) {
                         $('#downloadNow').attr('href', baseUrl + '/' + data.file);
+$('.download-msg').text('Click download button to download file');
                         $('#loader').hide();
                         $('#downloadNow').show();
                     }
