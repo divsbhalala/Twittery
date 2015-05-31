@@ -205,29 +205,7 @@ $(document).ready(function () {
         $('#loader').show();
         $('#myModal').modal('show');
         var d_type = $(this).attr('filetype');
-        if (d_type == 'pdf') {
-            $.ajax({
-                type: 'post',
-                data: {'htmls': htmldata},
-                dataType: 'json',
-                url: 'getFile.php',
-                success: function (data) {
-                    if (data.success === true) {
-
-                        $('#downloadNow').attr('href', baseUrl + '/' + data.file);
-$('.download-msg').text('Click download button to download file');
-                        $('#loader').hide();
-                        $('#downloadNow').show();
-                    }
-                },
-                error: function (data, er, error) {
-                    /*---Hide model on error-----*/
-                    $('#myModal').modal('hide');
-                    showError('Opps! Error in file download', 'alert-danger');
-                }
-            });
-        }
-        else if (d_type == 'googleSheet') {
+        if (d_type == 'googleSheet') {
             document.location.href = 'redirect_Google.php?users=' + lastusers;
         }
         else if (d_type == 'csv' || d_type == 'json' || d_type == 'xls') {

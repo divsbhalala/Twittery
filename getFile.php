@@ -21,19 +21,6 @@ $request = json_decode($request);
 
 /* --------download file from calling function -------------- */
 
-
-if (isset($request->htmls))
-{
-    if(!empty($request->htmls)) {
-        $htmdData=json_encode($request->htmls);
-        /* --------get pdf from here -------------- */
-        $data = $conn->get_Pdf($htmdData,$userScreenName,$oauth_token,$oauth_token_secret);
-        echo json_encode($data);
-        return;
-    }
-
-}
-
 if (isset($request->type)){
     if( $request->type == 'csv') {
         $lastusers = @$request->users;

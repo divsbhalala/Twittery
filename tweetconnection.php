@@ -8,10 +8,6 @@ require_once('lib/twitteroauth/TwitterOAuth.php');
 require_once('lib/php-export-data.class.php');
 
 
-/* ----------include mpdf for pfd generate---------- */
-require_once('lib/mPDF/mpdf.php');
-
-
 //require_once('config.php');
 define('CONSUMER_KEY', 'pXWaxgrWhLa8YZn7YVcgpbvCs');
 define('CONSUMER_SECRET', '1v8DvZprFdeFMVam957w90EwlFnOzZllgXMJrDtIcGiX6ifR7C');
@@ -178,52 +174,6 @@ class tweetconnection {
         }
 
         /* ----------return  data with file name or iscreated---------- */
-        return $data;
-    }
-
-    /* ----------genrate pdf file---------- */
-
-    public function get_Pdf($htmls, $forFileName = 'tweets', $oauth_token = null, $oauth_token_secret = null) {
-        if ($oauth_token == null || $oauth_token_secret == null) {
-            header('Location: clearsession.php');
-        }
-
-        $htmls = json_decode($htmls);
-        $filename = "download/" . $forFileName . ".pdf";
-
-        $this->removeFile($filename);
-
-
-        $html = '<html><head><title>Tweetry</title>
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="assets/css/full.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet">
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-   </head><body><div class="row pad-30  show-tweets">';
-        $html .= $htmls;
-        $html .= "</div></body></html>";
-
-        /* ----------Create new pdf file---------- */
-        $mpdf = new mPDF('c');
-        /* ----------set DisplayMode for new created file---------- */
-        $mpdf->SetDisplayMode('fullpage');
-        /* ----------write data content into file---------- */
-        $mpdf->WriteHTML($html);
-        /* ----------genrate pdf file---------- */
-        /* ----------open new creted file into browser---------- */
-        $mpdf->Output($filename, "F");
-        /* ----------Check whether file is created---------- */
-        chmod($filename, 0777);
-        if (file_exists($filename)) {
-
-            $data = array('success' => true,
-                'file' => $filename);
-        } else {
-            $data = array('success' => false,
-                'file' => '');
-        }
         return $data;
     }
 
