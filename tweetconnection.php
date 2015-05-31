@@ -7,6 +7,11 @@ require_once('lib/twitteroauth/TwitterOAuth.php');
 /* ----------For excell---------- */
 require_once('lib/php-export-data.class.php');
 
+
+/* ----------include mpdf for pfd generate---------- */
+require_once('lib/mPDF/mpdf.php');
+
+
 //require_once('config.php');
 define('CONSUMER_KEY', 'pXWaxgrWhLa8YZn7YVcgpbvCs');
 define('CONSUMER_SECRET', '1v8DvZprFdeFMVam957w90EwlFnOzZllgXMJrDtIcGiX6ifR7C');
@@ -187,9 +192,6 @@ class tweetconnection {
         $filename = "download/" . $forFileName . ".pdf";
 
         $this->removeFile($filename);
-
-        /* ----------include mpdf for pfd generate---------- */
-        require_once('lib/mPDF/mpdf.php');
 
 
         $html = '<html><head><title>Tweetry</title>
