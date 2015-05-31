@@ -203,7 +203,7 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
                     if (isset($friend_list->users) && count($friend_list->users) > 0) {
                         ?>
                         <div id="hacker-list">
-                            <div class="col-md-12 col-sm-12 form-group margin-top-10" style="overflow: hidden">
+                            <div class="col-md-12 col-sm-12 form-group margin-top-10 pad-0" >
                                 <input type="text" class="form-control search" placeholder="Search Followers">
 
                             </div>
