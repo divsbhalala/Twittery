@@ -149,8 +149,6 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
                                                                fileType="json">JSON</a>
                                     </li>
                                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="download"
-                                                               fileType="pdf">PDF</a></li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="download"
                                                                fileType="googleSheet">Google Spredsheet</a></li>
 
 
