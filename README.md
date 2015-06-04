@@ -2,7 +2,7 @@
 
 Tweetry - Display Tweets and your twitter followers in slide show  and  Download Tweets into various format like CSV,XML,JSON,Excell and also move it to your google dive in google spreadsheet formate
 
-* ####Contributor: [@Dsbhalala99](https://github.com/divsbhalala)
+* ####Contributor: [@divsbhalala](https://github.com/divsbhalala)
 
 * ####Description:  
 
