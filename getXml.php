@@ -22,12 +22,16 @@ if(isset($request->users) && !empty($request->users))
 {
     $lastusers = @$request->users;
 }
+if(empty($lastusers) || $lastusers=='')
+{
+    $_SESSION['tweetData']=$_SESSION['MytweetData'];
+}
 
 $filename = "download/" . $userScreenName . ".xml";
 $conn->removeFile($filename);
 
 
-$jsonArray = $conn->get_tweets_for_file($lastusers,$oauth_token,$oauth_token_secret);
+$jsonArray = $conn->get_tweets_for_file($_SESSION['tweetData']);
 $xml_template1 = new SimpleXMLElement("<?xml version=\"1.0\" encoding='UTF-8'?><twittery></twittery>");
 
 $ff=arr($jsonArray, $xml_template1);
