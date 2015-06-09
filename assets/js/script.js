@@ -4,6 +4,7 @@ $(document).ready(function () {
     //var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];  //for local
      var baseUrl = getUrl .protocol + "//" + getUrl.host;
     var htmldata = '';
+    strtLoad();
     homwtweet();
     var lastusers = '';
     /*-------------------For getting my homes tweet-------------------*/
