@@ -22,26 +22,32 @@ $request = json_decode($request);
 /* --------download file from calling function -------------- */
 
 if (isset($request->type)){
+    $lastusers = @$request->users;
+    if(empty($lastusers) || $lastusers=='')
+    {
+        $_SESSION['tweetData']=$_SESSION['MytweetData'];
+    }
+
     if( $request->type == 'csv') {
-        $lastusers = @$request->users;
-         /* --------get csv from here -------------- */
-        $data = $conn->getcsv($lastusers, $userScreenName,$oauth_token,$oauth_token_secret);
+
+        /* --------get csv from here -------------- */
+        $data = $conn->getcsv($userScreenName,@$_SESSION['tweetData']);
         echo json_encode($data);
         return;
     }
     else if( $request->type == 'json') {
-        $lastusers = @$request->users;
-         /* --------get json from here -------------- */
-        $data = $conn->getJson($lastusers,$userScreenName,$oauth_token,$oauth_token_secret);
+
+        /* --------get json from here -------------- */
+        $data = $conn->getJson($userScreenName,@$_SESSION['tweetData']);
         echo json_encode($data);
         return;
     }
     else if( $request->type == 'xls') {
-        $lastusers = @$request->users;
-         /* --------get xls from here -------------- */
-        $data = $conn->getXls($lastusers,$userScreenName,$oauth_token,$oauth_token_secret);
+
+        /* --------get xls from here -------------- */
+        $data = $conn->getXls($userScreenName,@$_SESSION['tweetData']);
         echo json_encode($data);
         return;
     }
-   
+
 }

@@ -42,7 +42,8 @@ class GetOauthTest extends PHPUnit_Framework_TestCase
     function testGetJson()
     {
         $this->conn = new tweetconnection();
-        $this->data=$this->conn->getJson('','tweets',OAUTH_ACCESS_TOKEN,OAUTH_ACCESS_TOKEN_SECRET);
+        $tweet=$this->conn->get_tweet('home','',OAUTH_ACCESS_TOKEN,OAUTH_ACCESS_TOKEN_SECRET);
+        $this->data=$this->conn->getJson('tweets',$tweet);
         $this->assertInternalType('array',$this->data);
         $this->assertEquals( $this->conn->removeFile( $this->data['file'] ), NULL );
         // $this->assertEquals($this->data, $tweets);

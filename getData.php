@@ -30,14 +30,21 @@ if (isset($request->tweetUserName)) {
 if (!empty($tweetUserName) && !empty($tweetType)) {
     /* --------get followers tweet-------------- */
     $data = $conn->get_tweet($tweetType, $tweetUserName,$oauth_token,$oauth_token_secret);
+    $_SESSION['tweetData']=$data;
     echo json_encode($data);
     return;
 } else if (!empty($tweetType)) {
 
     /* --------get my tweet-------------- */
-    $data = $conn->get_tweet($tweetType,'',$oauth_token,$oauth_token_secret);
+
+    if(!isset($_SESSION['MytweetData']) && empty($_SESSION['MytweetData']))
+    {
+        $data = $conn->get_tweet($tweetType,'',$oauth_token,$oauth_token_secret);
+        $_SESSION['MytweetData']=$data;
+    }
+    else{
+        $data=$_SESSION['MytweetData'];
+    }
     echo json_encode($data);
     return;
 }
-
-

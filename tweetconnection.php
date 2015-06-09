@@ -59,27 +59,7 @@ class tweetconnection {
         return $tweets;
     }
 
-    function get_tweets_for_file($lastusers = '', $oauth_token = null, $oauth_token_secret = null) {
-
-        if ($oauth_token == null || $oauth_token_secret == null) {
-            header('Location: clearsession.php');
-        }
-
-        $this->twitteroauth = $this->get_tweetOauth($oauth_token, $oauth_token_secret);
-
-        /* ----------get the latest 10 tweets of the current user from his home timline---------- */
-        if ($lastusers == 'me' || $lastusers == '') {
-            /* ----------get the current user's info---------- */
-            $user_info = $this->twitteroauth->get('account/verify_credentials');
-           // return $user_info;exit;
-            if (isset($user_info->errors)) {
-                header('location:clearsession.php?error='.$user_info->errors[0]->message);
-            }
-            $lastusers = $user_info->screen_name;
-            $tweets = $this->twitteroauth->get("https://api.twitter.com/1.1/statuses/home_timeline.json?screen_name=" . $lastusers . "&count=10&contributor_details=true");
-        } else if ($lastusers != '') {
-            $tweets = $this->twitteroauth->get("https://api.twitter.com/1.1/statuses/user_timeline.json?include_entities=true&screen_name=" . $lastusers . "&count=10");
-        }
+    function get_tweets_for_file($tweets) {
 
         $jsonArray = array();
         foreach ($tweets as $line) {
@@ -134,12 +114,7 @@ class tweetconnection {
 
     /* ----------genrate csv file---------- */
 
-    public function getcsv($lastusers = '', $forFileName = 'tweets', $oauth_token = null, $oauth_token_secret = null) {
-
-        if ($oauth_token == null || $oauth_token_secret == null) {
-            header('Location: clearsession.php');
-        }
-
+    public function getcsv( $forFileName = 'tweets',$tweets) {
         $filename = "download/" . $forFileName . ".csv";
         /* ----------remove already created file---------- */
         $this->removeFile($filename);
@@ -150,7 +125,7 @@ class tweetconnection {
 
         fputcsv($f, array("id_str", "created_at", "text", "retweet_by", "name", "screen_name", "profile_image_url", "favorite_count", "retweet_count", "media_url"), $delimiter);
 
-        $jsonArray = $this->get_tweets_for_file($lastusers, $oauth_token, $oauth_token_secret);
+        $jsonArray = $this->get_tweets_for_file($tweets);
         /* ----------loop over the input array---------- */
         foreach ($jsonArray as $singleArray) {
             $mediaUrl = '';
@@ -179,11 +154,8 @@ class tweetconnection {
 
     /* ----------genrate json file---------- */
 
-    public function getJson($lastusers = '', $forFileName = 'tweets', $oauth_token = null, $oauth_token_secret = null) {
-        if ($oauth_token == null || $oauth_token_secret == null) {
-            header('Location: clearsession.php');
-        }
-        $jsonArray = $this->get_tweets_for_file($lastusers, $oauth_token, $oauth_token_secret);
+    public function getJson( $forFileName = 'tweets',$tweets) {
+        $jsonArray = $this->get_tweets_for_file($tweets);
         $filename = "download/" . $forFileName . ".json";
         /* ----------remove already created file--------- */
         $this->removeFile($filename);
@@ -206,12 +178,9 @@ class tweetconnection {
 
     /* ----------genrate xls file--------- */
 
-    public function getXls($lastusers = '', $forFileName = 'tweets', $oauth_token = null, $oauth_token_secret = null) {
-        if ($oauth_token == null || $oauth_token_secret == null) {
-            header('Location: clearsession.php');
-        }
+    public function getXls( $forFileName = 'tweets',$tweets) {
 
-        $jsonArray = $this->get_tweets_for_file($lastusers, $oauth_token, $oauth_token_secret);
+        $jsonArray = $this->get_tweets_for_file($tweets);
 
         $filename = "download/" . $forFileName . ".xls";
 

@@ -16,7 +16,14 @@ $access_token = $_SESSION['access_token'];
 /* -----------create a TwitterOauth object with tokens----------------------- */
 $twitteroauth = $conn->get_tweetOauth($access_token['oauth_token'], $access_token['oauth_token_secret']);
 /* -----------get the current user's info----------------------- */
-$user_info = $twitteroauth->get('account/verify_credentials');
+
+if(!isset($_SESSION['user_info']) && empty($_SESSION['user_info'])){
+    $user_info = $twitteroauth->get('account/verify_credentials');
+    $_SESSION['user_info']=$user_info;
+}
+else{
+    $user_info=$_SESSION['user_info'];
+}
 
 /* -----------check twitter Oauth ----------------------- */
 if (isset($user_info->errors)) {
@@ -28,7 +35,15 @@ $_SESSION['userScreen'] = $user_info->screen_name;
 
 //
 /* -----------get the followers list----------------------- */
-$friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.json?cursor=-1&screen_name=" . $user_info->screen_name . "&skip_status=true&include_user_entities=false&count=50");
+
+if(!isset($_SESSION['user_friends'])&&empty($_SESSION['user_friends']))
+{
+    $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.json?cursor=-1&screen_name=" . $user_info->screen_name . "&skip_status=true&include_user_entities=false&count=50");
+    $_SESSION['user_friends']=$friend_list;
+}
+else{
+    $friend_list=$_SESSION['user_friends'];
+}
 ?>
 
 <!DOCTYPE html>
