@@ -32,13 +32,20 @@ if (isset($user_info->errors)) {
 
 /* -----------set user screen name to session for file creation----------------------- */
 $_SESSION['userScreen'] = $user_info->screen_name;
+$_SESSION['totalUsersTweet']=$user_info->statuses_count;
+$_SESSION['totalUsersFollowers']=$user_info->followers_count;
 
 //
 /* -----------get the followers list----------------------- */
 
 if(!isset($_SESSION['user_friends'])&&empty($_SESSION['user_friends']))
 {
-    $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.json?cursor=-1&screen_name=" . $user_info->screen_name . "&skip_status=true&include_user_entities=false&count=50");
+     $friend_list='';
+    if(count($user_info->followers_count)>0)
+    {
+     $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.json?cursor=-1&screen_name=" . $user_info->screen_name . "&skip_status=true&include_user_entities=false&count=".$_SESSION['totalUsersFollowers']);   
+    }
+    
     $_SESSION['user_friends']=$friend_list;
 }
 else{
@@ -118,7 +125,7 @@ else{
                 <div class="col-md-9 col-sm-9 col-xs-12 margin-top-10 pull-right">
 
                     <div class="col-md-2 col-sm-3 col-xs-4 text-center counts ">
-                        <span><?php echo @$user_info->statuses_count; ?><br>  Tweets</span>
+                        <span><tweetCount><?php echo @$user_info->statuses_count; ?></tweetCount><br>  Tweets</span>
                     </div>
                     <div class="col-md-2 col-sm-3 col-xs-4 text-center counts ">
                         <span><?php echo @$user_info->friends_count; ?><br>  Following</span>
@@ -293,6 +300,7 @@ else{
         <script defer src="assets/js/script.js"></script>
         <script>
             $users = '<?php echo @$_SESSION['userScreen'] ?>';
+            
         </script>
     </body>
 

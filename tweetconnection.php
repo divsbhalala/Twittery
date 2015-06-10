@@ -27,7 +27,8 @@ class tweetconnection {
         return $this->twitteroauth;
     }
 
-    public function get_tweet($tweetType = '', $tweetUserName = '', $oauth_token = null, $oauth_token_secret = null) {
+    public function get_tweet($tweetType = '', $tweetUserName = '', $oauth_token = null, $oauth_token_secret = null, $count = 10)
+    {
 
         if ($oauth_token == null || $oauth_token_secret == null) {
             header('Location: clearsession.php');
@@ -38,27 +39,54 @@ class tweetconnection {
         $user_info = $this->twitteroauth->get('account/verify_credentials');
         /* ----------Redirect user if twitter oauth Rate limit error---------- */
         if (isset($user_info->errors)) {
-            header('location:clearsession.php?error='.$user_info->errors[0]->message);
+            header('location:clearsession.php?error=' . $user_info->errors[0]->message);
         }
         /* ----------get the latest 10 tweets of the current user from his timline---------- */
         if ($tweetType == "home") {
-            $tweets = $this->twitteroauth->get("https://api.twitter.com/1.1/statuses/home_timeline.json?screen_name=" . $user_info->screen_name . "&count=10&contributor_details=true");
+            $tweets = $this->twitteroauth->get("https://api.twitter.com/1.1/statuses/home_timeline.json?screen_name=" . $user_info->screen_name . "&count=" . $count . "&contributor_details=true");
         } else if ($tweetType == "followers") {
             if ($tweetUserName == "me") {
                 $username = $user_info->screen_name;
             } else {
                 $username = $tweetUserName;
             }
-            $tweets = $this->twitteroauth->get("https://api.twitter.com/1.1/statuses/user_timeline.json?include_entities=true&screen_name=" . $username . "&count=10");
+            $tweets = $this->twitteroauth->get("https://api.twitter.com/1.1/statuses/user_timeline.json?include_entities=true&screen_name=" . $username . "&count=" . $count);
             if (isset($tweets->error) && $tweets->error == "Not authorized") {
 
                 $_SESSION['unauthorized'] = true;
-                header('location:clearsession.php?unauthorized='.true);
+                header('location:clearsession.php?unauthorized=' . true);
             }
         }
         return $tweets;
     }
 
+ public function get_all_user_tweet($oauth_token = null, $oauth_token_secret = null, $count = 10)
+    {
+
+        if ($oauth_token == null || $oauth_token_secret == null) {
+            header('Location: clearsession.php');
+        }
+
+        $this->get_tweetOauth($oauth_token, $oauth_token_secret);
+
+        $user_info = $this->twitteroauth->get('account/verify_credentials');
+        /* ----------Redirect user if twitter oauth Rate limit error---------- */
+        if (isset($user_info->errors)) {
+            header('location:clearsession.php?error=' . $user_info->errors[0]->message);
+        }
+        /* ----------get the latest 10 tweets of the current user from his timline---------- */
+       
+            $username = $user_info->screen_name;
+            $tweets = $this->twitteroauth->get("https://api.twitter.com/1.1/statuses/user_timeline.json?include_entities=true&screen_name=" . $username . "&count=" . $count);
+            if (isset($tweets->error) && $tweets->error == "Not authorized") {
+
+                $_SESSION['unauthorized'] = true;
+                header('location:clearsession.php?unauthorized=' . true);
+            }
+        
+
+        return $tweets;
+    }
     function get_tweets_for_file($tweets) {
 
         $jsonArray = array();

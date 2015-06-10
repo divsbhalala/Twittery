@@ -1,5 +1,11 @@
 
 $(document).ready(function () {
+       //disable download btn if not tweet found
+    if($('tweetCount').text().trim()<0 || $('tweetCount').text().trim()=='' )
+                {
+                    $('#downloadtweets').addClass('disabled');
+                }
+                
     var getUrl = window.location;
     //var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];  //for local
      var baseUrl = getUrl .protocol + "//" + getUrl.host;
@@ -148,7 +154,22 @@ $(document).ready(function () {
                         '</div></div>';
             }
 
-            $('.flexslider').empty();
+            
+             $('#downloadtweets').removeClass('disabled');
+        }
+        else {
+             htmldata += '<div class="nowslide">' +
+                        '<div class="col-md-12 col-xs-12 pad-0 bordered  ">' +
+                        
+                        
+                        '<div class="col-md-11 col-xs-10 text-left ">' +
+                        
+                        '<div class="col-md-12 pull-left text-center text-error bold">You have no Tweets to show</div>' +
+                        '</div>' +
+                        '</div></div>';
+                    $('#downloadtweets').addClass('disabled');
+        }
+        $('.flexslider').empty();
             $('.flexslider').append('<div class="newslide"></div>');
             $('.newslide').append(htmldata);
             $('.flexslider').removeData("flexslider");
@@ -169,11 +190,6 @@ $(document).ready(function () {
             $(window).resize();
             $('.flexslider').flexslider();
             finishload();
-
-        }
-        else {
-            finishload();
-        }
 
 
     }
@@ -196,7 +212,10 @@ $(document).ready(function () {
         $('#myModal').modal({backdrop: 'static'})
 
         /*-------Click on download buttom to download the file-----------------------------*/
-        $('#downloadNow').click(function () {
+        $('#downloadNow').click(function (e) {
+             e.preventDefault(); 
+            document.location.href = 'ForceFile.php'+'?file='+$(this).prop('href');
+       
             showError('File download successfully', 'alert-success');
             /*---Hide model after download the file-----*/
             $('#myModal').modal('hide');
