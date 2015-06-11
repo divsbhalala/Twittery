@@ -57,7 +57,7 @@ class tweetconnection {
         return $tweets;
     }
 
- public function get_all_user_tweet($oauth_token = null, $oauth_token_secret = null, $count = 10)
+ public function get_all_user_tweet($oauth_token = null, $oauth_token_secret = null, $count = 10,$page=1)
     {
 
         if ($oauth_token == null || $oauth_token_secret == null) {
@@ -74,7 +74,7 @@ class tweetconnection {
         /* ----------get the latest 10 tweets of the current user from his timline---------- */
        
             $username = $user_info->screen_name;
-            $tweets = $this->twitteroauth->get("https://api.twitter.com/1.1/statuses/user_timeline.json?include_entities=true&screen_name=" . $username . "&count=" . $count);
+            $tweets = $this->twitteroauth->get("https://api.twitter.com/1.1/statuses/user_timeline.json?include_entities=true&screen_name=" . $username . "&count=" . $count.'&page='.$page);
             if (isset($tweets->error) && $tweets->error == "Not authorized") {
 
                 $_SESSION['unauthorized'] = true;

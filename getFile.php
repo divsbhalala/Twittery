@@ -25,8 +25,15 @@ if (isset($request->type)){
     $lastusers = @$request->users;
     if(!isset($_SESSION['alltweetData']) && empty($_SESSION['alltweetData']))
         {
-            $data = $conn->get_all_user_tweet($oauth_token,$oauth_token_secret,@$_SESSION['totalUsersTweet']);
-            $_SESSION['alltweetData']=$data;
+             $_SESSION['alltweetData']=array();
+        $forloop=ceil($_SESSION['totalUsersTweet']/200);
+        for($i=1;$i<=$forloop;$i++)
+        {
+            $data = $conn->get_all_user_tweet($oauth_token,$oauth_token_secret,200,$i);
+            //array_push($_SESSION['alltweetData'],$data);
+            $_SESSION['alltweetData']=array_merge($_SESSION['alltweetData'],$data);
+
+        }
         }
         $_SESSION['tweetData']=$_SESSION['alltweetData'];
 
