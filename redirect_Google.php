@@ -29,7 +29,6 @@ $conn = new tweetconnection();
         for($i=1;$i<=$forloop;$i++)
         {
             $data = $conn->get_all_user_tweet($oauth_token,$oauth_token_secret,200,$i);
-            //array_push($_SESSION['alltweetData'],$data);
             $_SESSION['alltweetData']=array_merge($_SESSION['alltweetData'],$data);
 
         }
@@ -127,7 +126,5 @@ try {
 } catch (Exception $ex) {
     $_SESSION['google_upload'] = false;
     print_r($ex);
-       /* --------redirect to home page with error-------------- */
-   // header("location:home.php?gupload=0");
      exit;
 }
