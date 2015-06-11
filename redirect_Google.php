@@ -22,7 +22,14 @@ require_once 'tweetconnection.php';
 $lastusers = @$_REQUEST['users'] ;
 $conn = new tweetconnection();
 
-$data = $conn->getcsv($lastusers, $userScreenName, $oauth_token, $oauth_token_secret);
+ if(!isset($_SESSION['alltweetData']) && empty($_SESSION['alltweetData']))
+        {
+            $data = $conn->get_all_user_tweet($oauth_token,$oauth_token_secret,@$_SESSION['totalUsersTweet']);
+            $_SESSION['alltweetData']=$data;
+        }
+        $_SESSION['tweetData']=$_SESSION['alltweetData'];
+
+$data = $conn->getcsv($userScreenName,@$_SESSION['tweetData']);
 
 if (!isset($data) && $data['success'] == 'false') {
     $_SESSION['google_upload'] = false;
