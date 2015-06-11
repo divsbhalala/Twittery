@@ -160,7 +160,7 @@ class tweetconnection {
             if (isset($singleArray['media_url'])) {
                 $mediaUrl = implode(' , ', $singleArray['media_url']);
             }
-            fputcsv($f, array("'" . $singleArray['id_str'] . "'", $singleArray['created_at'], $singleArray['text'], $singleArray['retweet_by'], $singleArray['name'], $singleArray['screen_name'], $singleArray['profile_image_url'], $singleArray['favorite_count'], $singleArray['retweet_count'], $mediaUrl), $delimiter);
+            fputcsv($f, array($singleArray['id_str'] , $singleArray['created_at'], $singleArray['text'], $singleArray['retweet_by'], $singleArray['name'], $singleArray['screen_name'], $singleArray['profile_image_url'], $singleArray['favorite_count'], $singleArray['retweet_count'], $mediaUrl), $delimiter);
         }
 
 
@@ -225,7 +225,7 @@ class tweetconnection {
                 $mediaUrl = implode(' , ', $singleArray['media_url']);
             }
 
-            $exporter->addRow(array("'" . $singleArray['id_str'] . "'", $singleArray['created_at'], $singleArray['text'], $singleArray['retweet_by'], $singleArray['name'], $singleArray['screen_name'], $singleArray['profile_image_url'], $singleArray['favorite_count'], $singleArray['retweet_count'], $mediaUrl));
+            $exporter->addRow(array($singleArray['id_str'], $singleArray['created_at'], $singleArray['text'], $singleArray['retweet_by'], $singleArray['name'], $singleArray['screen_name'], $singleArray['profile_image_url'], $singleArray['favorite_count'], $singleArray['retweet_count'], $mediaUrl));
         }
 
         $exporter->finalize();
