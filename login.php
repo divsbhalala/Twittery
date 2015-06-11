@@ -30,9 +30,3 @@ try {
 } catch (Exception $exc) {
     header('location:index.php');
 }
-
-
-
-
-?>
-

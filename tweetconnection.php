@@ -8,10 +8,10 @@ require_once('lib/twitteroauth/TwitterOAuth.php');
 require_once('lib/php-export-data.class.php');
 
 
-//require_once('config.php');
-define('CONSUMER_KEY', 'pXWaxgrWhLa8YZn7YVcgpbvCs');
+require_once('config.php');
+/*define('CONSUMER_KEY', 'pXWaxgrWhLa8YZn7YVcgpbvCs');
 define('CONSUMER_SECRET', '1v8DvZprFdeFMVam957w90EwlFnOzZllgXMJrDtIcGiX6ifR7C');
-define('OAUTH_CALLBACK', 'http://twittery-rttweet.rhcloud.com/redirect.php');
+define('OAUTH_CALLBACK', 'http://twittery-rttweet.rhcloud.com/redirect.php');*/
 
 class tweetconnection {
 
@@ -92,9 +92,7 @@ class tweetconnection {
         $jsonArray = array();
         foreach ($tweets as $line) {
             /* ----------generate array lines from the tweets---------- */
-            $retweeted = '';
-            $myjson = array();
-
+            
             if (isset($line->retweeted_status)) {
                 $username = $line->retweeted_status->user->name;
                 $screenname = $line->retweeted_status->user->screen_name;

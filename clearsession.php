@@ -30,4 +30,3 @@ if (isset($_REQUEST['error'])) {
 
 /*--------Redirect user to the index page --------------*/
 header('Location:' . $redirect);
-?>

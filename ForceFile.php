@@ -6,4 +6,3 @@ header ("Content-type: octet/stream");
 header ("Content-disposition: attachment; filename=".$file.";");
 readfile($ff);
 exit;
-?>
