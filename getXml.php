@@ -21,11 +21,13 @@ $lastusers='';
 if(isset($request->users) && !empty($request->users))
 {
     $lastusers = @$request->users;
-}
-if(empty($lastusers) || $lastusers=='')
-{
-    $_SESSION['tweetData']=$_SESSION['MytweetData'];
-}
+} if(!isset($_SESSION['alltweetData']) && empty($_SESSION['alltweetData']))
+        {
+            $data = $conn->get_all_user_tweet($oauth_token,$oauth_token_secret,@$_SESSION['totalUsersTweet']);
+            $_SESSION['alltweetData']=$data;
+        }
+        $_SESSION['tweetData']=$_SESSION['alltweetData'];
+
 
 $filename = "download/" . $userScreenName . ".xml";
 $conn->removeFile($filename);
