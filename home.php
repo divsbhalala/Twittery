@@ -225,7 +225,7 @@ else{
                     if (isset($friend_list->users) && count($friend_list->users) > 0) {
                         ?>
                         <div id="hacker-list">
-                            <div class="col-md-12 col-sm-12 form-group margin-top-10 over-hide pad-0" >
+                            <div class="col-md-12 col-sm-12 form-group margin-top-10  pad-0" >
                                 <input type="text" class="form-control search" placeholder="Search Followers">
 
                             </div>
