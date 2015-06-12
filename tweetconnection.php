@@ -35,10 +35,9 @@ class tweetconnection {
 
         $user_info = $this->twitteroauth->get('account/verify_credentials');
         /* ----------Redirect user if twitter oauth Rate limit error---------- */
-        if (isset($user_info->errors)) {
-            header('location:clearsession.php?error=' . $user_info->errors[0]->message);
-        }
+        $this->userInfoError($user_info);
         /* ----------get the latest 10 tweets of the current user from his timline---------- */
+        $tweets=array();
         if ($tweetType == "home") {
             $tweets = $this->twitteroauth->get("https://api.twitter.com/1.1/statuses/home_timeline.json?screen_name=" . $user_info->screen_name . "&count=" . $count . "&contributor_details=true");
         } else if ($tweetType == "followers") {
@@ -48,11 +47,7 @@ class tweetconnection {
                 $username = $tweetUserName;
             }
             $tweets = $this->twitteroauth->get("https://api.twitter.com/1.1/statuses/user_timeline.json?include_entities=true&screen_name=" . $username . "&count=" . $count);
-            if (isset($tweets->error) && $tweets->error == "Not authorized") {
-
-                $_SESSION['unauthorized'] = true;
-                header('location:clearsession.php?unauthorized=' . true);
-            }
+            $this->tweetError($tweets);
         }
         return $tweets;
     }
@@ -68,18 +63,13 @@ class tweetconnection {
 
         $user_info = $this->twitteroauth->get('account/verify_credentials');
         /* ----------Redirect user if twitter oauth Rate limit error---------- */
-        if (isset($user_info->errors)) {
-            header('location:clearsession.php?error=' . $user_info->errors[0]->message);
-        }
+        $this->userInfoError($user_info);
+       
         /* ----------get the latest 10 tweets of the current user from his timline---------- */
        
             $username = $user_info->screen_name;
             $tweets = $this->twitteroauth->get("https://api.twitter.com/1.1/statuses/user_timeline.json?include_entities=true&screen_name=" . $username . "&count=" . $count.'&page='.$page);
-            if (isset($tweets->error) && $tweets->error == "Not authorized") {
-
-                $_SESSION['unauthorized'] = true;
-                header('location:clearsession.php?unauthorized=' . true);
-            }
+           $this->tweetError($tweets);
         
 
         return $tweets;
@@ -246,6 +236,21 @@ class tweetconnection {
         if (file_exists($filename)) {
             unlink($filename);
         }
+    }
+    
+     public function tweetError($tweets) {
+
+        /* ---------check for tweet errors--------- */
+       if (isset($tweets->error) && $tweets->error == "Not authorized") {
+        header('location:clearsession.php?unauthorized=' . true);
+        }
+    }
+    public function userInfoError($user_info) {
+
+        /* ---------check for user information errors--------- */
+      if (isset($user_info->errors)) {
+header('location:clearsession.php?error=' . $user_info->errors[0]->message);
+}
     }
 
 }
