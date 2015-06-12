@@ -150,16 +150,7 @@ class tweetconnection {
 
 
         fseek($f, 0);
-
-        chmod($filename, 0777);
-        if (file_exists($filename)) {
-
-            $data = array('success' => true,
-                'file' => $filename);
-        } else {
-            $data = array('success' => false,
-                'file' => '');
-        }
+        $data=$this->isFileCreated($filename);
 
         /* ----------return  data with file name or iscreated---------- */
         return $data;
@@ -175,17 +166,8 @@ class tweetconnection {
         $fp = fopen($filename, 'w');
         fwrite($fp, json_encode($jsonArray, JSON_PRETTY_PRINT));
         fclose($fp);
-
-        chmod($filename, 0777);
         /* ----------Check whether file is created--------- */
-        if (file_exists($filename)) {
-
-            $data = array('success' => true,
-                'file' => $filename);
-        } else {
-            $data = array('success' => false,
-                'file' => '');
-        }
+       $data=$this->isFileCreated($filename);
         return $data;
     }
 
@@ -214,17 +196,8 @@ class tweetconnection {
         }
 
         $exporter->finalize();
-
-        chmod($filename, 0777);
         /* ----------Check whether file is created--------- */
-        if (file_exists($filename)) {
-
-            $data = array('success' => true,
-                'file' => $filename);
-        } else {
-            $data = array('success' => false,
-                'file' => '');
-        }
+       $data=$this->isFileCreated($filename);
         return $data;
     }
 
@@ -249,8 +222,20 @@ class tweetconnection {
 
         /* ---------check for user information errors--------- */
       if (isset($user_info->errors)) {
-header('location:clearsession.php?error=' . $user_info->errors[0]->message);
-}
+        header('location:clearsession.php?error=' . $user_info->errors[0]->message);
+        }
+    }
+     public function isFileCreated($filename) {
+        chmod($filename, 0777);
+        /* ---------check for is file created return with name and status isfile created --------- */
+      if (file_exists($filename)) {
+            $data = array('success' => true,
+                        'file' => $filename);
+        } else {
+            $data = array('success' => false,
+            'file' => '');
+        }
+        return $data;
     }
 
 }
