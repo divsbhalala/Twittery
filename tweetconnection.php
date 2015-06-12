@@ -74,7 +74,7 @@ class tweetconnection {
 
         return $tweets;
     }
-    function get_tweets_for_file($tweets) {
+ public  function get_tweets_for_file($tweets) {
 
         $jsonArray = array();
         foreach ($tweets as $line) {
