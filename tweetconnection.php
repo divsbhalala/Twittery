@@ -141,11 +141,7 @@ class tweetconnection {
         $jsonArray = $this->get_tweets_for_file($tweets);
         /* ----------loop over the input array---------- */
         foreach ($jsonArray as $singleArray) {
-            $mediaUrl = '';
-            if (isset($singleArray['media_url'])) {
-                $mediaUrl = implode(' , ', $singleArray['media_url']);
-            }
-            fputcsv($f, array($singleArray['id_str'] , $singleArray['created_at'], $singleArray['text'], $singleArray['retweet_by'], $singleArray['name'], $singleArray['screen_name'], $singleArray['profile_image_url'], $singleArray['favorite_count'], $singleArray['retweet_count'], $mediaUrl), $delimiter);
+            fputcsv($f, array($singleArray['id_str'] , $singleArray['created_at'], $singleArray['text'], $singleArray['retweet_by'], $singleArray['name'], $singleArray['screen_name'], $singleArray['profile_image_url'], $singleArray['favorite_count'], $singleArray['retweet_count'],implode(' , ', @$singleArray['media_url'])), $delimiter);
         }
 
 
@@ -187,12 +183,7 @@ class tweetconnection {
 
         $exporter->addRow(array("id_str", "created_at", "text", "retweet_by", "name", "screen_name", "profile_image_url", "favorite_count", "retweet_count", "media_url"));
         foreach ($jsonArray as $singleArray) {
-            $mediaUrl = '';
-            if (isset($singleArray['media_url'])) {
-                $mediaUrl = implode(' , ', $singleArray['media_url']);
-            }
-
-            $exporter->addRow(array($singleArray['id_str'], $singleArray['created_at'], $singleArray['text'], $singleArray['retweet_by'], $singleArray['name'], $singleArray['screen_name'], $singleArray['profile_image_url'], $singleArray['favorite_count'], $singleArray['retweet_count'], $mediaUrl));
+            $exporter->addRow(array($singleArray['id_str'], $singleArray['created_at'], $singleArray['text'], $singleArray['retweet_by'], $singleArray['name'], $singleArray['screen_name'], $singleArray['profile_image_url'], $singleArray['favorite_count'], $singleArray['retweet_count'], implode(' , ', @$singleArray['media_url'])));
         }
 
         $exporter->finalize();
