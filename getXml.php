@@ -46,15 +46,8 @@ function arr($jsonArray, $xml_template1) {
 }
 
 if ($ff) {
-    if (file_exists($filename)) {
-
-            $data = array('success' => true,
-                'file' => $filename);
-        } else {
-            $data = array('success' => false,
-                'file' => '');
-        }
-        echo json_encode($data);
+     $data=$conn->isFileCreated($filename);
+         echo json_encode($data);
                 return;exit;
         }
 
